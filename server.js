@@ -1,8 +1,24 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const cors = require('cors');
+const knex = require('knex')
 
+const db = knex({
+  client: 'pg',
+  connection: {
+    host : '127.0.0.1',
+    user : 'postgres',
+    password : 'sparhawk32',
+    database : 'newnet'
+  }
+});
 const app = express();
+
+
+
+db.select().table('CUSTOMER').then(data => {
+	console.log(data);
+});
 
 const database = {
 	users: [
@@ -43,7 +59,7 @@ const findUser =(email) => {
 }
 
 app.get('/', (req, res) => {
-	res.send(database.users);
+	res.send("Connected to SimpleCRM Node");
 })
 
 app.post('/signin', (req, res)=>{
